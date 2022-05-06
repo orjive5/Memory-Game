@@ -18,13 +18,13 @@ function Main() {
 
     let currentScore = clickedCards.length;
 
-    const [bestScore, setBestScore] = useState(currentScore)
+    const [bestScore, setBestScore] = useState(currentScore);
+
 
     function clickCard(event) {
         setCards(shuffleArray([...data]));
         setClickedCards(prevClickedCards => {
             if (prevClickedCards.includes(event.target.id)) {
-                console.log('game over')
                 return []
             } else {
                 return [...prevClickedCards, event.target.id]
@@ -57,16 +57,24 @@ function Main() {
         setClickedCards([]);
     }
 
+    const gameFinished = () => {
+        //TODO: Add logic for when the game is lost
+        if (bestScore >= 16) {
+            return (
+                <div className="play-again"><h1>YOU WON!</h1><button onClick={playAgain}>PLAY AGAIN</button></div>
+            )
+        } else {
+            return <div className="displayed-cards">{displayCards}</div>
+        }
+    }
+
     return (
         <main>
             <div className="score-keeper">
                 <h1>Current score: {currentScore}</h1>
                 <h1>Best score: {bestScore}</h1>
             </div>
-                {bestScore >= 16
-                    ? <div className="play-again"><h1>YOU WON!</h1><button onClick={playAgain}>PLAY AGAIN</button></div>
-                    : <div className="displayed-cards">{displayCards}</div>
-                }
+            {gameFinished()}
         </main>
     )
 }
