@@ -81,8 +81,10 @@ function Main() {
         if (bestScore >= 16) {
             return (
                 <div className="play-again won">
-                    <h1>YOU WON!</h1>
-                    <button onClick={playAgain}>PLAY AGAIN</button>
+                    <div className="won-or-lost">
+                        <h1>YOU WON!</h1>
+                        <button onClick={playAgain} className='play-button'>PLAY AGAIN</button>
+                    </div>
                     <div className="painting-and-title">
                         <img src={findPainting.src} alt='' className="card-painting-full" id={findPainting.id} />
                         <p>{findPainting.title}</p>
@@ -93,8 +95,10 @@ function Main() {
         else if (checkForDuplicates(uniqueId)) {
             return (
                 <div className="play-again lost">
-                    <h1>YOU'VE LOST!</h1>
-                    <button onClick={playAgainLost}>PLAY AGAIN</button>
+                    <div className="won-or-lost">
+                        <h1>YOU'VE LOST!</h1>
+                        <button onClick={playAgainLost} className='play-button'>PLAY AGAIN</button>
+                    </div>
                     <div className="painting-and-title">
                         <img src={findPainting.src} alt='' className="card-painting-full" id={findPainting.id} />
                         <p>{findPainting.title}</p>
