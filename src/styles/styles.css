@@ -117,6 +117,14 @@ main {
     transition: transform .3s ease;
 }
 
+.card-painting-full {
+    width: 600px;
+    max-height: 600px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+}
+
 .card :hover {
     cursor: pointer;
     transform: scale(1.1);

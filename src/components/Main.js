@@ -20,6 +20,10 @@ function Main() {
 
     const [bestScore, setBestScore] = useState(currentScore);
 
+    const [lastClickedCard, setLastClickedCard] = useState([]);
+
+    const [uniqueId, setUniqueId] = useState([])
+
 
     function clickCard(event) {
         setCards(shuffleArray([...data]));
@@ -29,6 +33,10 @@ function Main() {
             } else {
                 return [...prevClickedCards, event.target.id]
             }
+        });
+        setLastClickedCard(event.target);
+        setUniqueId(prevUniqueId => {
+            return [...prevUniqueId, event.target.id]
         })
     }
 
@@ -55,16 +63,51 @@ function Main() {
     function playAgain() {
         setBestScore(0);
         setClickedCards([]);
+        setUniqueId([]);
+    }
+
+
+    function playAgainLost() {
+        setClickedCards([]);
+        setUniqueId([]);
+    }
+
+    function checkForDuplicates(array) {
+        return new Set(array).size !== array.length
     }
 
     const gameFinished = () => {
-        //TODO: Add logic for when the game is lost
+        const findPainting = data.find(element => element.id === lastClickedCard.id);
         if (bestScore >= 16) {
             return (
-                <div className="play-again"><h1>YOU WON!</h1><button onClick={playAgain}>PLAY AGAIN</button></div>
+                <div className="play-again won">
+                    <h1>YOU WON!</h1>
+                    <button onClick={playAgain}>PLAY AGAIN</button>
+                    <div className="painting-and-title">
+                        <img src={findPainting.src} alt='' className="card-painting-full" id={findPainting.id} />
+                        <p>{findPainting.title}</p>
+                    </div>
+                </div>
             )
-        } else {
-            return <div className="displayed-cards">{displayCards}</div>
+        }
+        else if (checkForDuplicates(uniqueId)) {
+            return (
+                <div className="play-again lost">
+                    <h1>YOU'VE LOST!</h1>
+                    <button onClick={playAgainLost}>PLAY AGAIN</button>
+                    <div className="painting-and-title">
+                        <img src={findPainting.src} alt='' className="card-painting-full" id={findPainting.id} />
+                        <p>{findPainting.title}</p>
+                    </div>
+                </div>
+            )
+        }
+        else {
+            return (
+                <div className="displayed-cards">
+                    {displayCards}
+                </div>
+            )
         }
     }
 
