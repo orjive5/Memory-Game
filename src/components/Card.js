@@ -1,16 +1,16 @@
-import React from "react";
+import React from 'react';
 
 function Card(props) {
-  return (
-    <div className="card" onClick={props.handleClick} id={props.id}>
-      <img
-        src={props.src}
-        alt="painting"
-        className="card-painting"
-        id={props.id}
-      />
-    </div>
-  );
+    return (
+        <div className="card" onClick={props.handleClick} id={props.id}>
+            <img
+                src={props.src}
+                alt="painting"
+                className="card-painting"
+                id={props.id}
+            />
+        </div>
+    );
 }
 
 export default Card;

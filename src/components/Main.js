@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
-import Card from "./Card";
-import data from "./data";
+import React, { useEffect, useState } from 'react';
+import Card from './Card';
+import data from './data';
 
 function Main() {
-
     function shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -22,43 +21,44 @@ function Main() {
 
     const [lastClickedCard, setLastClickedCard] = useState([]);
 
-    const [uniqueId, setUniqueId] = useState([])
-
+    const [uniqueId, setUniqueId] = useState([]);
 
     function clickCard(event) {
         setCards(shuffleArray([...data]));
-        setClickedCards(prevClickedCards => {
+        setClickedCards((prevClickedCards) => {
             if (prevClickedCards.includes(event.target.id)) {
-                return []
+                return [];
             } else {
-                return [...prevClickedCards, event.target.id]
+                return [...prevClickedCards, event.target.id];
             }
         });
         setLastClickedCard(event.target);
-        setUniqueId(prevUniqueId => {
-            return [...prevUniqueId, event.target.id]
-        })
+        setUniqueId((prevUniqueId) => {
+            return [...prevUniqueId, event.target.id];
+        });
     }
 
     useEffect(() => {
-        setBestScore(prevBestScore => {
+        setBestScore((prevBestScore) => {
             if (prevBestScore >= clickedCards.length) {
-                return prevBestScore
+                return prevBestScore;
             } else {
-                return clickedCards.length
+                return clickedCards.length;
             }
-        })
-    }, [clickedCards])
+        });
+    }, [clickedCards]);
 
-    const displayCards = cards.map(element => {
-        return <Card
-            key={element.id}
-            id={element.id}
-            title={element.title}
-            src={element.src}
-            handleClick={clickCard}
-        />
-    })
+    const displayCards = cards.map((element) => {
+        return (
+            <Card
+                key={element.id}
+                id={element.id}
+                title={element.title}
+                src={element.src}
+                handleClick={clickCard}
+            />
+        );
+    });
 
     function playAgain() {
         setBestScore(0);
@@ -66,54 +66,63 @@ function Main() {
         setUniqueId([]);
     }
 
-
     function playAgainLost() {
         setClickedCards([]);
         setUniqueId([]);
     }
 
     function checkForDuplicates(array) {
-        return new Set(array).size !== array.length
+        return new Set(array).size !== array.length;
     }
 
     const gameFinished = () => {
-        const findPainting = data.find(element => element.id === lastClickedCard.id);
+        const findPainting = data.find(
+            (element) => element.id === lastClickedCard.id
+        );
         if (bestScore >= 16) {
             return (
                 <div className="play-again won">
                     <div className="won-or-lost">
                         <h1>YOU WON!</h1>
-                        <button onClick={playAgain} className='play-button'>PLAY AGAIN</button>
+                        <button onClick={playAgain} className="play-button">
+                            PLAY AGAIN
+                        </button>
                     </div>
                     <div className="painting-and-title">
-                        <img src={findPainting.src} alt='' className="card-painting-full" id={findPainting.id} />
+                        <img
+                            src={findPainting.src}
+                            alt=""
+                            className="card-painting-full"
+                            id={findPainting.id}
+                        />
                         <p>{findPainting.title}</p>
                     </div>
                 </div>
-            )
-        }
-        else if (checkForDuplicates(uniqueId)) {
+            );
+        } else if (checkForDuplicates(uniqueId)) {
             return (
                 <div className="play-again lost">
                     <div className="won-or-lost">
                         <h1>YOU'VE LOST!</h1>
-                        <button onClick={playAgainLost} className='play-button'>PLAY AGAIN</button>
+                        <button onClick={playAgainLost} className="play-button">
+                            PLAY AGAIN
+                        </button>
                     </div>
                     <div className="painting-and-title">
-                        <img src={findPainting.src} alt='' className="card-painting-full" id={findPainting.id} />
+                        <img
+                            src={findPainting.src}
+                            alt=""
+                            className="card-painting-full"
+                            id={findPainting.id}
+                        />
                         <p>{findPainting.title}</p>
                     </div>
                 </div>
-            )
+            );
+        } else {
+            return <div className="displayed-cards">{displayCards}</div>;
         }
-        else {
-            return (
-                <div className="displayed-cards">
-                    {displayCards}
-                </div>
-            )
-        }
-    }
+    };
 
     return (
         <main>
@@ -123,7 +132,7 @@ function Main() {
             </div>
             {gameFinished()}
         </main>
-    )
+    );
 }
 
 export default Main;
